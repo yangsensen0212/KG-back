@@ -1,0 +1,9 @@
+server:
+  port: ${port:9001}
+
+spring:
+  redis:
+    host: redis-18338.c246.us-east-1-4.ec2.cloud.redislabs.com
+    port: 18338
+    username: default
+    password: ${REDIS_PASSWORD}

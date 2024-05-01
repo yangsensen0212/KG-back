@@ -1,0 +1,44 @@
+server:
+  port: ${port:9002 }
+
+spring:
+  redis:
+    host: redis-18338.c246.us-east-1-4.ec2.cloud.redislabs.com
+    port: 18338
+    username: default
+    password: ${REDIS_PASSWORD}
+  datasource:
+    url: jdbc:mysql://mysql.sqlpub.com:3306/databasebykg
+    username: yangsensen
+    password: Rty2CksFuMnnTPNv
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 30
+      minimum-idle: 1
+
+security:
+  oauth2:
+    accessTokenValiditySeconds: ${access-token-validity-seconds:1800} # 令牌过期时间 半个小时
+    refreshTokenValiditySeconds: ${refresh-token-validity-seconds:3600} # 令牌刷新有限时间
+    client-id: ${client-id:yangsensen-created-oauth-service}
+    secret: ${client-secret:hkjhflkdsdf}
+    authorizedGrantTypes:
+      - password
+      - refresh_token
+    scopes:
+      - all
+    accessTokenUri: http://${access-token-ip:127.0.0.1}:${server.port}/oauth/token
+
+
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+  type-enums-package: com.yss
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
