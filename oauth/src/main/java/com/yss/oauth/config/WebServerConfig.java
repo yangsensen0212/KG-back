@@ -32,7 +32,7 @@ public class WebServerConfig extends WebSecurityConfigurerAdapter {
 ////                .antMatchers("/oauth/**", "/token/**").permitAll()
 //                .anyRequest().permitAll();
         http.authorizeRequests()
-            .antMatchers("/oauth/**", "/token/**").permitAll();
+            .antMatchers("/oauth/**", "/token/**", "/druid/**").permitAll();
 //            .anyRequest().authenticated();
 
     }

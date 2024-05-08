@@ -3,4 +3,4 @@ spring:
     host: redis-16345.c92.us-east-1-3.ec2.redns.redis-cloud.com
     port: 16345
     username: default
-    password: M5kxrIiKE8zVTkRN8YJwi4u8fDswj7ql # ${REDIS_PASSWORD}
+    password: ${REDIS_PASSWORD}

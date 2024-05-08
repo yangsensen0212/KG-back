@@ -26,6 +26,11 @@
             <artifactId>common-redis</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.yss</groupId>
+            <artifactId>common-mysql</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
