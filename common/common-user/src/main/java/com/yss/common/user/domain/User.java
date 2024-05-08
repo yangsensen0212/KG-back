@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-@TableName("`user`")
+@TableName("user")
 @NoArgsConstructor
 public class User extends BaseEntity {
     @TableField

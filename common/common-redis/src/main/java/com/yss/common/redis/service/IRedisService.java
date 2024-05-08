@@ -43,6 +43,15 @@ public interface IRedisService<T> {
      */
     void setCacheList(String key, List<T> dataList);
 
+
+    /**
+     * 追加到list数组中，无元素时自动初始化
+     *
+     * @param key 缓存的键值
+     * @param data 带添加的值
+     */
+    void addToCacheList(String key, T data);
+
     /**
      * 获得缓存的list对象
      *
@@ -74,6 +83,16 @@ public interface IRedisService<T> {
      * @param dataMap map对象
      */
     void setCacheMap(String key, Map<String, T> dataMap);
+
+    /**
+     * 缓存Map
+     *
+     * @param key 键值
+     * @param data map对象值
+     */
+    void addToCacheMap(String key, String mapKey, T data);
+
+
 
     /**
      * 获得缓存的Map

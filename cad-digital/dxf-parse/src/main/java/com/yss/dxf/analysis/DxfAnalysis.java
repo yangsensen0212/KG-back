@@ -47,8 +47,8 @@ public class DxfAnalysis {
         int i = 0;
         String str = lineList.get(i);
         //未到文件结束标志
-        while (!FileStructEnum.FILE_END.getCode().equals(str)) {
-            str = lineList.get(++i);
+        while (!FileStructEnum.FILE_END.getCode().equals(str) && ++i < lineList.size()) {
+            str = lineList.get(i);
             //实体段开始
             if (FileStructEnum.ENTITIES_START.getCode().equals(str)) {
                 //解析实体
@@ -68,8 +68,8 @@ public class DxfAnalysis {
      */
     private static void parseEntities(int i, List<String> lineList, Map<String, List<GeometricObject>> map) {
         String str = null;
-        while (true) {
-            str = lineList.get(++i);
+        while (++i < lineList.size()) {
+            str = lineList.get(i);
 
             //点开始
             if (PointEnum.POINT_NAME.getCode().equals(str)) {

@@ -22,6 +22,5 @@ public class DrillAnalyse {
         List<DrillColumnCell> drillColumnCellList = new DrillCellAnalyse(collector, config).getDrillColumnCellList();
         ExcelAnalyse excelAnalyse = new ExcelAnalyse(drillColumnCellList, excelOut);
         excelAnalyse.save();
-        excelOut.close();
     }
 }

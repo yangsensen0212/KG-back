@@ -13,9 +13,21 @@ import java.io.IOException;
 public class Dwg2Dxf {
     @Value("${cad.converterDirectory}")
     private String converterDirectory;
-    public void transfer(String inputDir, String outputDir) throws IOException {
+    public int transfer(String inputDir, String outputDir) throws IOException, InterruptedException {
         Runtime runtime = Runtime.getRuntime();
-        runtime.exec(String.format("cmd.exe /c cd %s && TeighaFileConverter %s %s ACAD2013 DXF 0 1 *.dwg",
+        Process process = runtime.exec(String.format("cmd.exe /c cd %s && TeighaFileConverter %s %s ACAD2013 DXF 0 1 *.dwg",
                 converterDirectory, inputDir, outputDir));
+//        // 获取命令执行结果
+//        InputStream inputStream = process.getInputStream();
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//        String line;
+//        while ((line = reader.readLine()) != null) {
+//            System.out.println(line);
+//        }
+//        reader.close();
+//
+//        // 等待命令执行完成
+        int exitCode = process.waitFor();
+        return exitCode;
     }
 }

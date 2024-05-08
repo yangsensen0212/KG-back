@@ -4,11 +4,9 @@ import com.yss.common.redis.service.IRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author 杨森森
@@ -65,6 +63,18 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
     }
 
     /**
+     * 追加到list数组中，无元素时自动初始化
+     *
+     * @param key  缓存的键值
+     * @param data 带添加的值
+     */
+    @Override
+    public void addToCacheList(String key, T data) {
+        ListOperations<String, T> ops = redisTemplate.opsForList();
+        ops.rightPush(key, data);
+    }
+
+    /**
      * 获得缓存的list对象
      *
      * @param key 缓存的键值
@@ -72,7 +82,8 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      */
     @Override
     public List<T> getCacheList(String key) {
-        return null;
+        ListOperations<String, T> listOperations = redisTemplate.opsForList();
+        return listOperations.range(key, 0, -1);
     }
 
     /**
@@ -104,6 +115,19 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      */
     @Override
     public void setCacheMap(String key, Map<String, T> dataMap) {
+    }
+
+    /**
+     * 缓存Map
+     *
+     * @param key    键值
+     * @param mapKey map的key值
+     * @param data   map对象值
+     */
+    @Override
+    public void addToCacheMap(String key, String mapKey, T data) {
+        BoundHashOperations<String, Object, Object> ops = redisTemplate.boundHashOps(key);
+        ops.put(mapKey, data);
     }
 
     /**

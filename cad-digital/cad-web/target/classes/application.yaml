@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: cad-web
+  profiles:
+    include: redis
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+
+cad:
+  converterDirectory: ${converterDirectory:C:\myself\app\Teigha} #转换器所在路径
+
+drill-param:
+  cosBetweenLineSegmentErr: 0.01
+  straightErr: 0.01
+  textSortedErrRatio: 0.1
+
+app:
+  version: 1.0-SNAPSHOT
+
+storage:
+  cacheStorage: redis
+  fileStorage: local
+
+
+server:
+  port: 9003

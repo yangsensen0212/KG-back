@@ -46,8 +46,6 @@ public class TokenServiceImpl implements ITokenService {
     }
 
 
-
-
     @Override
     public OAuth2AccessToken login(UserLoginParamDto dto) throws Exception {
         User user = userService.getByUserName(dto.getUsername());

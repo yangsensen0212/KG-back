@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "drill-param",
+      "type": "com.yss.cad.web.config.DrillParamConfig",
+      "sourceType": "com.yss.cad.web.config.DrillParamConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "drill-param.cos-between-line-segment-err",
+      "type": "java.lang.Double",
+      "sourceType": "com.yss.cad.web.config.DrillParamConfig"
+    },
+    {
+      "name": "drill-param.straight-err",
+      "type": "java.lang.Double",
+      "sourceType": "com.yss.cad.web.config.DrillParamConfig"
+    },
+    {
+      "name": "drill-param.text-sorted-err-ratio",
+      "type": "java.lang.Double",
+      "sourceType": "com.yss.cad.web.config.DrillParamConfig"
+    }
+  ],
+  "hints": []
+}

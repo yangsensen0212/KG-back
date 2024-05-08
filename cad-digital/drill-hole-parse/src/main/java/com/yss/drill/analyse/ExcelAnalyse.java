@@ -58,7 +58,6 @@ public class ExcelAnalyse {
     public void mergeCell(XSSFSheet sheet, List<ExcelCell> excelCellList) {
         for (ExcelCell excelCell : excelCellList) {
             if (excelCell.getArea() > 1) {
-                System.out.println(excelCell);
                 ExcelCell.ExcelPoint topLeft = excelCell.getTopLeft();
                 ExcelCell.ExcelPoint bottomRight = excelCell.getBottomRight();
                 try {

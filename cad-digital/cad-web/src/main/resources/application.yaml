@@ -1,0 +1,18 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: cad-web
+  profiles:
+    include: redis,drill,common,swagger
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+
+storage:
+  cacheStorage: redis
+  fileStorage: local
+
+

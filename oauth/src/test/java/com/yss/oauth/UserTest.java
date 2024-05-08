@@ -29,9 +29,9 @@ public class UserTest {
     PasswordEncoder passwordEncoder;
 
     @Test
-    @Transactional
+//    @Transactional
     public void insertUser() {
-        User user = new User().setUserName("yangsensen").setPassword("123456").setRealName("杨森森");
+        User user = new User().setUserName("jinziyue").setPassword("123456").setRealName("靳子越");
         String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         User databaseUser = userService.getByUserName(user.getUserName());

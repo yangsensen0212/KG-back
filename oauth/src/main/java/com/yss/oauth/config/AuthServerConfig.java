@@ -40,7 +40,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @Bean
     public TokenStore redisTokenStore() {
         return new RedisTokenStore(redisConnectionFactory);
@@ -62,7 +61,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authorizedGrantTypes(authorizedGrantTypeArray)
                 .scopes(scopeArray);
     }
-
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {

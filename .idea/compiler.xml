@@ -9,6 +9,7 @@
         <module name="cad-common" />
         <module name="drill-hole-parse" />
         <module name="common-mysql" />
+        <module name="common-swagger" />
         <module name="common-user" />
         <module name="cad-web" />
         <module name="kg" />
@@ -25,8 +26,10 @@
       <module name="cad-digital" options="-parameters" />
       <module name="cad-web" options="-parameters" />
       <module name="common" options="-parameters" />
+      <module name="common-core" options="-parameters" />
       <module name="common-mysql" options="-parameters" />
       <module name="common-redis" options="-parameters" />
+      <module name="common-swagger" options="-parameters" />
       <module name="common-user" options="-parameters" />
       <module name="drill-hole-parse" options="-parameters" />
       <module name="dxf-parse" options="-parameters" />

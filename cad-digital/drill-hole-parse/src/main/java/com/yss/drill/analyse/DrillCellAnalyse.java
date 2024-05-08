@@ -118,6 +118,7 @@ public class DrillCellAnalyse {
         DxfLine dLine = (DxfLine) lines[1];
 
         if (rLine==null || lLine == null || tLine==null || dLine == null) {
+            dxfTextList.remove(0);
             return null;
         }
         return searchText(text, lLine, rLine, tLine, dLine, dxfTextList);

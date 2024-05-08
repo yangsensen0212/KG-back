@@ -1,0 +1,4 @@
+drill-param:
+  cosBetweenLineSegmentErr: 0.01
+  straightErr: 0.01
+  textSortedErrRatio: 0.1
