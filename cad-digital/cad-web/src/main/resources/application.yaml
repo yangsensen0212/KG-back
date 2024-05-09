@@ -14,5 +14,4 @@ spring:
 storage:
   cacheStorage: redis
   fileStorage: local
-
-
+  expired: 604800 # 单位s, 这里设置过期时间为7天

@@ -1,28 +1,17 @@
+server:
+  port: 9003
+
 spring:
   application:
     name: cad-web
   profiles:
-    include: redis
+    include: redis,drill,common,swagger
   servlet:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
 
-cad:
-  converterDirectory: ${converterDirectory:C:\myself\app\Teigha} #转换器所在路径
-
-drill-param:
-  cosBetweenLineSegmentErr: 0.01
-  straightErr: 0.01
-  textSortedErrRatio: 0.1
-
-app:
-  version: 1.0-SNAPSHOT
-
 storage:
   cacheStorage: redis
   fileStorage: local
-
-
-server:
-  port: 9003
+  expired: 604800 # 单位s, 这里设置过期时间为7天

@@ -14,4 +14,11 @@ public interface IFileStorage {
      * @return 文件地址
      */
     String storage(File file) throws IOException;
+
+    /**
+     * 删除文件
+     * @param filePath 文件地址
+     * @return 成功状态
+     */
+    boolean delete(String filePath) throws IOException;
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,11 @@ public interface IRedisService<T> {
     void setCacheSet(String key, Set<T> dataSet);
 
     /**
+     * 往set添加
+     */
+    void addCatchSet(String key, T value);
+
+    /**
      * 获得缓存的set
      *
      * @param key 键值
@@ -92,8 +98,6 @@ public interface IRedisService<T> {
      */
     void addToCacheMap(String key, String mapKey, T data);
 
-
-
     /**
      * 获得缓存的Map
      *
@@ -109,4 +113,24 @@ public interface IRedisService<T> {
      * @return 对象列表
      */
     Collection<String> keys(String pattern);
+
+    /**
+     * 设置过期时间
+     * @param key key
+     * @param second 秒
+     */
+    void setExpired(String key, long second);
+
+    /**
+     * 从list中删除所有等于value的值
+     * @param key key值
+     * @param value list中的某value
+     */
+    void removeFromList(String key, String value);
+    /**
+     * 从set中删除所有等于value的值
+     * @param key key值
+     * @param value set中的某value
+     */
+    void removeFromSet(String key, String value);
 }

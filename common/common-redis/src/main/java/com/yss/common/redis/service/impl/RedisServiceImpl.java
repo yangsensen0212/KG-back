@@ -4,18 +4,19 @@ import com.yss.common.redis.service.IRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author 杨森森
  * @Data 2024/4/10  14:51
  */
 @Service
-public class RedisServiceImpl<T> implements IRedisService<T> {
+public class RedisServiceImpl implements IRedisService<String> {
     @Autowired
-    private RedisTemplate<String, T> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
 
     /**
@@ -25,8 +26,8 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @param value 存储值
      */
     @Override
-    public void setCacheObject(String key, T value) {
-        ValueOperations<String, T> ops = redisTemplate.opsForValue();
+    public void setCacheObject(String key, String  value) {
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
         ops.set(key, value);
     }
 
@@ -37,8 +38,8 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @return 缓存的对象
      */
     @Override
-    public T getCacheObject(String key) {
-        ValueOperations<String, T> ops = redisTemplate.opsForValue();
+    public String getCacheObject(String key) {
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
         return ops.get(key);
     }
 
@@ -59,7 +60,7 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @param dataList 待缓存的List数据
      */
     @Override
-    public void setCacheList(String key, List<T> dataList) {
+    public void setCacheList(String key, List<String> dataList) {
     }
 
     /**
@@ -69,8 +70,8 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @param data 带添加的值
      */
     @Override
-    public void addToCacheList(String key, T data) {
-        ListOperations<String, T> ops = redisTemplate.opsForList();
+    public void addToCacheList(String key, String data) {
+        ListOperations<String, String> ops = redisTemplate.opsForList();
         ops.rightPush(key, data);
     }
 
@@ -81,8 +82,8 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @return 缓存键值对应的数据
      */
     @Override
-    public List<T> getCacheList(String key) {
-        ListOperations<String, T> listOperations = redisTemplate.opsForList();
+    public List<String> getCacheList(String key) {
+        ListOperations<String, String> listOperations = redisTemplate.opsForList();
         return listOperations.range(key, 0, -1);
     }
 
@@ -93,7 +94,17 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @param dataSet 缓存的数据
      */
     @Override
-    public void setCacheSet(String key, Set<T> dataSet) {
+    public void setCacheSet(String key, Set<String> dataSet) {
+    }
+
+    /**
+     * 往set添加
+     *
+     */
+    @Override
+    public void addCatchSet(String key, String value) {
+        SetOperations<String, String> ops = redisTemplate.opsForSet();
+        ops.add(key, value);
     }
 
     /**
@@ -103,8 +114,9 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @return set集合
      */
     @Override
-    public <T1> Set<T1> getCacheSet(String key) {
-        return null;
+    public  Set<String> getCacheSet(String key) {
+        SetOperations<String, String> ops = redisTemplate.opsForSet();
+        return ops.members(key);
     }
 
     /**
@@ -114,7 +126,7 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @param dataMap map对象
      */
     @Override
-    public void setCacheMap(String key, Map<String, T> dataMap) {
+    public void setCacheMap(String key, Map<String, String> dataMap) {
     }
 
     /**
@@ -125,7 +137,7 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @param data   map对象值
      */
     @Override
-    public void addToCacheMap(String key, String mapKey, T data) {
+    public void addToCacheMap(String key, String mapKey, String data) {
         BoundHashOperations<String, Object, Object> ops = redisTemplate.boundHashOps(key);
         ops.put(mapKey, data);
     }
@@ -137,8 +149,13 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
      * @return map对象
      */
     @Override
-    public Map<String, T> getCacheMap(String key) {
-        return null;
+    public Map<String, String> getCacheMap(String key) {
+        Map<Object, Object> rawMap = redisTemplate.opsForHash().entries(key);
+        Map<String, String> map = new HashMap<>();
+        for (Map.Entry<Object, Object> entry : rawMap.entrySet()) {
+            map.put(entry.getKey().toString(), (String) entry.getValue());
+        }
+        return map;
     }
 
     /**
@@ -150,5 +167,39 @@ public class RedisServiceImpl<T> implements IRedisService<T> {
     @Override
     public Collection<String> keys(String pattern) {
         return null;
+    }
+
+    /**
+     * 设置过期时间
+     *
+     * @param key key
+     */
+    @Override
+    public void setExpired(String key, long second) {
+        redisTemplate.expire(key, second, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 从list中删除所有等于value的值
+     *
+     * @param key   key值
+     * @param value list中的某value
+     */
+    @Override
+    public void removeFromList(String key, String value) {
+        ListOperations<String, String> ops = redisTemplate.opsForList();
+        ops.remove(key, 0, value);
+    }
+
+    /**
+     * 从set中删除所有等于value的值
+     *
+     * @param key   key值
+     * @param value set中的某value
+     */
+    @Override
+    public void removeFromSet(String key, String value) {
+        SetOperations<String, String> ops = redisTemplate.opsForSet();
+        ops.remove(key, value);
     }
 }

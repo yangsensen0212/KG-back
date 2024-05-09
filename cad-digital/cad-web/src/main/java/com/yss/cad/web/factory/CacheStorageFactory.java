@@ -1,5 +1,6 @@
 package com.yss.cad.web.factory;
 
+import com.yss.cad.web.enums.ParseState;
 import com.yss.cad.web.storage.ICacheStorage;
 import com.yss.cad.web.storage.RedisStorage;
 import com.yss.common.redis.service.IRedisService;
@@ -43,4 +44,10 @@ public class CacheStorageFactory {
         return cacheStorage;
     }
 
+    /**
+     * 获取当前状态
+     */
+    public ParseState state(String key) {
+        return cacheStorage.state(key);
+    }
 }

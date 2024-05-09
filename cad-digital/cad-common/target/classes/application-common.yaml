@@ -1,0 +1,2 @@
+cad:
+  converterDirectory: ${converterDirectory:C:\myself\app\Teigha} #转换器所在路径

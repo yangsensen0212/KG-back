@@ -1,6 +1,7 @@
 package com.yss.cad.web.storage;
 
 import com.yss.common.core.utils.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +13,7 @@ import java.nio.channels.FileChannel;
  * @Author 杨森森
  * @Data 2024/5/7  11:22
  */
+@Slf4j
 public class LocalFileStorage implements IFileStorage{
 
     /**
@@ -29,4 +31,18 @@ public class LocalFileStorage implements IFileStorage{
         destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
         return destFile.getPath();
     }
+
+    /**
+     * 删除文件
+     *
+     * @param filePath 文件地址
+     * @return 成功状态
+     */
+    @Override
+    public boolean delete(String filePath) {
+        log.info("deleting:{}", filePath);
+        File file = new File(filePath);
+        return file.delete();
+    }
+
 }

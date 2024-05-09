@@ -1,7 +1,9 @@
 package com.yss.cad.web.sevice;
 
 import com.yss.cad.common.Dwg2Dxf;
+import com.yss.cad.web.dto.ParseDto;
 import com.yss.cad.web.storage.DrillResultStorage;
+import com.yss.cad.web.vo.ParseVO;
 import com.yss.common.core.utils.FileUtils;
 import com.yss.common.core.utils.ZipUtils;
 import com.yss.drill.Drill;
@@ -16,6 +18,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -45,7 +48,7 @@ public class DrillService {
      * @throws IOException io异常
      */
     @Async
-    public void asyncParse(MultipartFile zipFile, String token) throws IOException, InterruptedException {
+    public void asyncParse(MultipartFile zipFile, String token, ParseDto info) throws IOException, InterruptedException {
         File unzipDir = unzip(zipFile);
         if(FileUtils.isEmptyFolder(unzipDir)) {
             return;
@@ -53,13 +56,14 @@ public class DrillService {
         File dxfDir = toDxfDir(unzipDir);
         FileUtils.delete(unzipDir);
         String key = randomKey();
-        System.err.println("当前key为->" + key);
+        log.info("当前key为->" + key);
         for (File file : Objects.requireNonNull(dxfDir.listFiles())) {
             log.info("当前解析文件：" + file.getPath());
             File out = parse(file);
-            drillResultStorage.storage(token, key, out, file.getName());
-            FileUtils.delete(out);
+            drillResultStorage.storage(token, key, out, file.getName(), info);
+            out.delete();
         }
+        drillResultStorage.success(key);
         FileUtils.delete(dxfDir);
         zipFile.getInputStream().close();
     }
@@ -103,5 +107,13 @@ public class DrillService {
         }
         FileUtils.delete(dwgDir.toFile());
         return dxfDir.toFile();
+    }
+
+    /**
+     * 获取解析结果list
+     * @param token 用户令牌
+     */
+    public List<ParseVO> getParseList(String token) throws IOException, ClassNotFoundException {
+        return drillResultStorage.getParseList(token);
     }
 }

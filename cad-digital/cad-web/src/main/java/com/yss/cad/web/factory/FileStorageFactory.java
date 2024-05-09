@@ -17,6 +17,8 @@ public class FileStorageFactory {
     @Value("${storage.fileStorage}")
     private String fileStoragePolicy;
 
+
+
     private IFileStorage fileStorage;
 
     @PostConstruct
