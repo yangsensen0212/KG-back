@@ -6,6 +6,7 @@ import com.yss.cad.web.vo.ParseVO;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 杨森森
@@ -45,4 +46,31 @@ public interface ICacheStorage {
      * @return 数组
      */
     List<ParseVO> getParseList(String token) throws IOException, ClassNotFoundException;
+
+    /**
+     * 获取信息，通过key
+     * @param key key
+     * @return vo
+     */
+    ParseDto getInfo(String key) throws IOException, ClassNotFoundException;
+
+    /**
+     * 获取map
+     * @param key
+     * @return
+     */
+    Map<String, String> getCacheMap(String key);
+
+    /**
+     * 获取token
+     * @param key
+     * @return
+     */
+    String getToken(String key);
+
+    /**
+     * 获取Vo
+     * @return
+     */
+    ParseVO getVo(String key) throws IOException, ClassNotFoundException;
 }

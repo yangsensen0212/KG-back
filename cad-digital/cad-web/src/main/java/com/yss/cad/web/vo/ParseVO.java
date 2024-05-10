@@ -16,12 +16,14 @@ public class ParseVO {
     private String name;
     private Date date;
     private ParseState state;
-    private Map<String, String> pathList;
+    private String key;
+    private Map<String, String> pathMap;
 
-    public ParseVO(ParseDto info, Map<String, String> cacheMap, ParseState state) {
+    public ParseVO(String key, ParseDto info, Map<String, String> cacheMap, ParseState state) {
         this.name = info.getName();
         this.date = info.getDate();
         this.state = state;
-        this.pathList = cacheMap;
+        this.key = key;
+        this.pathMap = cacheMap;
     }
 }

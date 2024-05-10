@@ -1,6 +1,7 @@
 package com.yss.cad.web.storage;
 
 import com.yss.common.core.utils.FileUtils;
+import com.yss.common.core.utils.ZipUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -8,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Map;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @Author 杨森森
@@ -45,4 +48,21 @@ public class LocalFileStorage implements IFileStorage{
         return file.delete();
     }
 
+    /**
+     * 下载文件列表，压缩后下载
+     *
+     * @param name    压缩包文件名称
+     * @param pathMap 路径集合
+     * @return File
+     */
+    @Override
+    public File download(String name, Map<String, String> pathMap) throws IOException {
+        File tempFile = File.createTempFile(name, ".zip");
+        FileOutputStream out = new FileOutputStream(tempFile);
+        ZipOutputStream zipOut = new ZipOutputStream(out);
+        ZipUtils.zipFiles(zipOut, pathMap);
+        zipOut.close();
+        out.close();
+        return tempFile;
+    }
 }

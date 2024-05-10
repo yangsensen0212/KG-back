@@ -78,7 +78,7 @@ public class RedisStorage implements ICacheStorage{
         redisService.setCacheObject(PREFIX + key + SUFFIX, serializationUtils.objectToString(info));
     }
 
-    private ParseDto getInfo(String key) throws IOException, ClassNotFoundException {
+    public ParseDto getInfo(String key) throws IOException, ClassNotFoundException {
         String cacheObject = redisService.getCacheObject(PREFIX + key + SUFFIX);
         return serializationUtils.stringToObject(cacheObject);
     }
@@ -91,7 +91,7 @@ public class RedisStorage implements ICacheStorage{
         redisService.addToCacheMap(PREFIX + key, fileName, filePath);
     }
 
-    private Map<String, String> getCacheMap(String key) {
+    public Map<String, String> getCacheMap(String key) {
         return redisService.getCacheMap(PREFIX + key);
     }
 
@@ -105,8 +105,22 @@ public class RedisStorage implements ICacheStorage{
 
 
 
-    private String getToken(String key) {
+    public String getToken(String key) {
         return redisService.getCacheObject(key + SUFFIX);
+    }
+
+    /**
+     * 获取Vo
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public ParseVO getVo(String key) throws IOException, ClassNotFoundException {
+        ParseDto info = getInfo(key);
+        Map<String, String> cacheMap = getCacheMap(key);
+        ParseState state = state(key);
+        return new ParseVO(key, info, cacheMap, state);
     }
 
     private void deleteToken(String key) {
@@ -172,10 +186,7 @@ public class RedisStorage implements ICacheStorage{
         Set<String> cacheSet = redisService.getCacheSet(token);
         List<ParseVO> voList = new ArrayList<>();
         for (String key : cacheSet) {
-            ParseDto info = getInfo(key);
-            Map<String, String> cacheMap = getCacheMap(key);
-            ParseState state = state(key);
-            ParseVO vo = new ParseVO(info, cacheMap, state);
+            ParseVO vo = getVo(key);
             voList.add(vo);
         }
         return voList;

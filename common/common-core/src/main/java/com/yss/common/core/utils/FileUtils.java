@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 /**
  * @Author 杨森森
@@ -13,8 +14,7 @@ import java.nio.file.Paths;
  */
 public class FileUtils {
     public static File transferToFile(InputStream fileInputStream, String filename) throws IOException {
-        int i = filename.lastIndexOf('.');
-        File tempFile = File.createTempFile(filename.substring(0, i), filename.substring(i));
+        File tempFile = File.createTempFile(UUID.randomUUID().toString(), getSuffix(filename));
         FileOutputStream outputStream = new FileOutputStream(tempFile);
         byte[] buffer = new byte[1024];
         int length;

@@ -2,6 +2,7 @@ package com.yss.cad.web.storage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @Author 杨森森
@@ -21,4 +22,12 @@ public interface IFileStorage {
      * @return 成功状态
      */
     boolean delete(String filePath) throws IOException;
+
+    /**
+     * 下载文件列表，压缩后下载
+     * @param name 压缩包文件名称
+     * @param pathMap 路径集合
+     * @return File
+     */
+    File download(String name, Map<String, String> pathMap) throws IOException;
 }

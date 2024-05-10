@@ -44,4 +44,11 @@ public class DrillResultStorage {
         ICacheStorage cacheStorage = cacheStorageFactory.getCacheStorage();
         return cacheStorage.getParseList(token);
     }
+
+    public File download(String key) throws IOException, ClassNotFoundException {
+        ICacheStorage cacheStorage = cacheStorageFactory.getCacheStorage();
+        ParseVO vo = cacheStorage.getVo(key);
+        IFileStorage fileStorage = fileStorageFactory.getFileStorage();
+        return fileStorage.download(vo.getName(), vo.getPathMap());
+    }
 }

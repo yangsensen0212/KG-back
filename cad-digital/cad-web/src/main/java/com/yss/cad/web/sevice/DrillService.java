@@ -10,6 +10,7 @@ import com.yss.drill.Drill;
 import com.yss.drill.entity.IParamConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @Author 杨森森
@@ -60,7 +62,7 @@ public class DrillService {
         for (File file : Objects.requireNonNull(dxfDir.listFiles())) {
             log.info("当前解析文件：" + file.getPath());
             File out = parse(file);
-            drillResultStorage.storage(token, key, out, file.getName(), info);
+            drillResultStorage.storage(token, key, out, file.getName() + ".xlsx", info);
             out.delete();
         }
         drillResultStorage.success(key);
@@ -115,5 +117,10 @@ public class DrillService {
      */
     public List<ParseVO> getParseList(String token) throws IOException, ClassNotFoundException {
         return drillResultStorage.getParseList(token);
+    }
+
+    public FileSystemResource download(String key) throws IOException, ClassNotFoundException {
+        File out = drillResultStorage.download(key);
+        return new FileSystemResource(out);
     }
 }

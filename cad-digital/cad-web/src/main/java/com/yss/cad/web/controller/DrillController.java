@@ -6,6 +6,10 @@ import com.yss.cad.web.vo.ParseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,5 +40,17 @@ public class DrillController {
         return drillService.getParseList(token);
     }
 
+    @GetMapping(value="download/{key}")
+    @ApiOperation("下载解析结果，需要传入key")
+    public ResponseEntity<FileSystemResource> download(@PathVariable("key") String key) throws IOException, ClassNotFoundException {
+        FileSystemResource resource = drillService.download(key);
+        // 创建响应头,指定附件下载
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + new String(resource.getFilename().getBytes("UTF-8"), "ISO-8859-1"));
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
 
 }

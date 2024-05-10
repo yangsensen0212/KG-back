@@ -8,7 +8,10 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @Author 杨森森
@@ -47,6 +50,31 @@ public class ZipUtils {
         File tempDir = Files.createTempDirectory(UUID.randomUUID().toString()).toFile();
         unZipFiles(zipFile, tempDir);
         return tempDir;
+    }
+
+    /**
+     * 文件压缩
+     * @param out 压缩输出
+     * @param fileMap 文件map集合，key为文件名，value是文件路径
+     * @throws IOException 可能有IO异常
+     */
+    public static void zipFiles(ZipOutputStream out, Map<String, String> fileMap) throws IOException {
+        for (String fileName : fileMap.keySet()) {
+            String path = fileMap.get(fileName);
+            toZipFiles(path, fileName, out);
+        }
+    }
+
+    private static void toZipFiles(String file, String fileOriginName, ZipOutputStream zipOut) throws IOException {
+        FileInputStream in = new FileInputStream(file);
+        ZipEntry zipEntry = new ZipEntry(fileOriginName);
+        zipOut.putNextEntry(zipEntry);
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = in.read(bytes)) >= 0) {
+            zipOut.write(bytes, 0, length);
+        }
+        in.close();
     }
 
 }
